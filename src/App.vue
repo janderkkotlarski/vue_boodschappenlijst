@@ -2,4 +2,6 @@
 const de = 0;
 </script>
 
-<template></template>
+<template>
+    {{ de }}
+</template>
