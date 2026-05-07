@@ -28,11 +28,12 @@ const subTotals = ref([]);
 const ident = ref(1);
 
 const subTotalInit = () => {
+    // .value is necessary in order to iterate correctly
     for (const entry of groceryList.value) {
-        // subTotals.value.push({id: entry.id, subTotal: entry.amount * entry.price});
+        subTotals.value.push({id: entry.id, subTotal: entry.amount * entry.price});
         // ident.value = entry.id;
         // subTotals.value.push({id: ident});
-        // ++ident.value;
+        ++ident.value;
     }
 };
 
