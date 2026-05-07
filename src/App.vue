@@ -1,43 +1,25 @@
 <script setup>
 import {computed, ref} from 'vue';
 
-// const groceryList = defineModel('groceryList', {
-//     type: Object,
-//     default: [
-//         {id: 1, name: 'Rijst', price: 1.0, amount: 1},
-//         {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
-//         {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
-//         {id: 4, name: 'Noten', price: 2.99, amount: 0},
-//     ],
-// });
+const groceryList = defineModel('groceryList', {
+    type: Object,
+    default: [
+        {id: 1, name: 'Rijst', price: 1.0, amount: 1},
+        {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
+        {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
+        {id: 4, name: 'Noten', price: 2.99, amount: 0},
+    ],
+});
 
-const groceryList = ref([
-    {id: 1, name: 'Rijst', price: 1.0, amount: 1},
-    {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
-    {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
-    {id: 4, name: 'Noten', price: 2.99, amount: 0},
-]);
+const totalized = computed(() => {
+    let total = 0;
 
-// const subTotals = defineModel('subTotals', {
-//     type: Object,
-//     default: [],
-// });
-
-const subTotals = ref([]);
-
-const ident = ref(1);
-
-const subTotalInit = () => {
-    // .value is necessary in order to iterate correctly
     for (const entry of groceryList.value) {
-        subTotals.value.push({id: entry.id, subTotal: entry.amount * entry.price});
-        // ident.value = entry.id;
-        // subTotals.value.push({id: ident});
-        ++ident.value;
+        total += entry.price * entry.amount;
     }
-};
 
-subTotalInit();
+    return Math.round(100 * total) / 100;
+});
 
 const arrayEntry = (array, key, value) => {
     for (const entry of array) {
@@ -45,23 +27,15 @@ const arrayEntry = (array, key, value) => {
             return entry;
         }
     }
-
-    return 'Value [' + value + '] for key [' + '] was not found!';
 };
 
-const subTotaler = index => {
-    return arrayEntry(groceryList, 'id', index).name;
+const minusEntry = ref(null);
+
+const minus = index => {
+    minusEntry.value = arrayEntry(groceryList.value, 'id', index);
+
+    // ++clickedMinus.value;
 };
-
-// const subTotals = computed(() => {
-//     let subs = [];
-
-//     for (const entry of groceryList.value) {
-//         subs.push({id: entry.id, subTotal: entry.amount * entry.price});
-//     }
-
-//     return subs;
-// });
 
 // const subbedTotal = computed(index => {
 //     return arrayEntry(subTotals, 'id', index).subTotal;
@@ -73,39 +47,30 @@ const subTotaler = index => {
         <tr>
             <th>Naam</th>
             <th>Prijs</th>
+            <th></th>
             <th>Aantal</th>
+            <th></th>
             <th>Subtotaal</th>
         </tr>
         <tr v-for="entry in groceryList" :key="entry.id">
             <td>{{ entry.name }}</td>
             <td>{{ entry.price }}</td>
+            <td><button @click="minus(index)">minder</button></td>
             <td>{{ entry.amount }}</td>
-            <td>{{ entry.id }}</td>
+            <td><button>meer</button></td>
+            <td>{{ entry.price * entry.amount }}</td>
         </tr>
         <tr>
             <td>Totaal</td>
             <td></td>
             <td></td>
-            <td>?</td>
+            <td></td>
+            <td></td>
+            <td>{{ totalized }}</td>
         </tr>
     </table>
 
-    {{ subTotals }}
+    <br />
 
-    <div>
-        <br />
-    </div>
-
-    {{ ident }}
-
-    <table>
-        <tr>
-            <th>id</th>
-            <th>Subtotaal</th>
-        </tr>
-        <tr v-for="entry in subTotals" :key="entry.id">
-            <td>{{ entry.id }}</td>
-            <td>{{ entry.subTotal }}</td>
-        </tr>
-    </table>
+    {{ minusEntry }}
 </template>
