@@ -1,15 +1,22 @@
 <script setup>
 import {computed, ref} from 'vue';
 
-const groceryList = defineModel('groceryList', {
-    type: Object,
-    default: [
-        {id: 1, name: 'Rijst', price: 1.0, amount: 1},
-        {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
-        {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
-        {id: 4, name: 'Noten', price: 2.99, amount: 0},
-    ],
-});
+// const groceryList = defineModel('groceryList', {
+//     type: Object,
+//     default: [
+//         {id: 1, name: 'Rijst', price: 1.0, amount: 1},
+//         {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
+//         {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
+//         {id: 4, name: 'Noten', price: 2.99, amount: 0},
+//     ],
+// });
+
+const groceryList = ref([
+    {id: 1, name: 'Rijst', price: 1.0, amount: 1},
+    {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
+    {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
+    {id: 4, name: 'Noten', price: 2.99, amount: 0},
+]);
 
 // const subTotals = defineModel('subTotals', {
 //     type: Object,
@@ -21,18 +28,15 @@ const subTotals = ref([]);
 const ident = ref(1);
 
 const subTotalInit = () => {
-    for (const entry of groceryList) {
+    for (const entry of groceryList.value) {
         // subTotals.value.push({id: entry.id, subTotal: entry.amount * entry.price});
-
-        ident.value = entry.id;
-
-        subTotals.value.push({id: ident});
-
+        // ident.value = entry.id;
+        // subTotals.value.push({id: ident});
         // ++ident.value;
     }
 };
 
-// subTotalInit();
+subTotalInit();
 
 const arrayEntry = (array, key, value) => {
     for (const entry of array) {
@@ -101,12 +105,6 @@ const subTotaler = index => {
         <tr v-for="entry in subTotals" :key="entry.id">
             <td>{{ entry.id }}</td>
             <td>{{ entry.subTotal }}</td>
-        </tr>
-        <tr>
-            <td>Totaal</td>
-            <td></td>
-            <td></td>
-            <td>?</td>
         </tr>
     </table>
 </template>
