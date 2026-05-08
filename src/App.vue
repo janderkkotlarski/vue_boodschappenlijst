@@ -11,6 +11,10 @@ const groceryList = defineModel('groceryList', {
     ],
 });
 
+const digitRounding = (decimal, digits) => {
+    return Math.round(decimal * 10 ** digits) / 10 ** digits;
+};
+
 const totalized = computed(() => {
     let total = 0;
 
@@ -18,7 +22,7 @@ const totalized = computed(() => {
         total += entry.price * entry.amount;
     }
 
-    return Math.round(100 * total) / 100;
+    return digitRounding(total, 2);
 });
 
 const arrayEntry = (array, key, value) => {
@@ -34,7 +38,11 @@ const minusEntry = ref(null);
 const minus = index => {
     minusEntry.value = arrayEntry(groceryList.value, 'id', index);
 
-    // ++clickedMinus.value;
+    if (minusEntry.value.amount > 0) {
+        --minusEntry.value.amount;
+    }
+
+    totalized();
 };
 
 // const subbedTotal = computed(index => {
@@ -55,10 +63,10 @@ const minus = index => {
         <tr v-for="entry in groceryList" :key="entry.id">
             <td>{{ entry.name }}</td>
             <td>{{ entry.price }}</td>
-            <td><button @click="minus(index)">minder</button></td>
+            <td><button @click="minus(entry.id)">minder</button></td>
             <td>{{ entry.amount }}</td>
             <td><button>meer</button></td>
-            <td>{{ entry.price * entry.amount }}</td>
+            <td>{{ Math.round(entry.price * entry.amount * 100) / 100 }}</td>
         </tr>
         <tr>
             <td>Totaal</td>
