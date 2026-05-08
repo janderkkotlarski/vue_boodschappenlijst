@@ -16,13 +16,15 @@ const digitRounding = (decimal, digits) => {
 };
 
 const totalized = computed(() => {
-    let total = 0;
+    // let total = 0;
 
-    for (const entry of groceryList.value) {
-        total += entry.price * entry.amount;
-    }
+    // for (const entry of groceryList.value) {
+    //     total += entry.price * entry.amount;
+    // }
 
-    return digitRounding(total, 2);
+    // return total; // digitRounding(total, 2);
+
+    return groceryList.value.reduce((sum, entry) => sum + entry.amount * entry.price);
 });
 
 const arrayEntry = (array, key, value) => {
@@ -41,9 +43,56 @@ const minus = index => {
     if (minusEntry.value.amount > 0) {
         --minusEntry.value.amount;
     }
-
-    totalized();
 };
+
+const startArray = ref([]);
+
+const addArray = array => {
+    const index = array.value.length + 1;
+
+    array.value.push({id: index, minused: -index});
+};
+
+const initStartArray = () => {
+    for (let index = 1; index <= 10; ++index) {
+        addArray(startArray);
+    }
+};
+
+initStartArray();
+
+// const testArray = ref(startArray);
+
+const testArray = defineModel('testArray', {
+    type: Array,
+    default: [],
+});
+
+const initTestArray = () => {
+    for (let index = 1; index <= 10; ++index) {
+        addArray(testArray);
+    }
+};
+
+initTestArray();
+
+const addTestArray = () => {
+    addArray(testArray);
+};
+
+const lastEntry = computed(() => {
+    return arrayEntry(testArray.value, 'id', testArray.value.length).id;
+});
+
+const sumTestArray = computed(() => {
+    let sum = 0;
+
+    for (const entry of testArray.value) {
+        sum += entry.minused ** entry.id;
+    }
+
+    return sum;
+});
 
 // const subbedTotal = computed(index => {
 //     return arrayEntry(subTotals, 'id', index).subTotal;
@@ -66,7 +115,7 @@ const minus = index => {
             <td><button @click="minus(entry.id)">minder</button></td>
             <td>{{ entry.amount }}</td>
             <td><button>meer</button></td>
-            <td>{{ Math.round(entry.price * entry.amount * 100) / 100 }}</td>
+            <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
         </tr>
         <tr>
             <td>Totaal</td>
@@ -81,4 +130,19 @@ const minus = index => {
     <br />
 
     {{ minusEntry }}
+
+    <button @click="addTestArray">De laatste is: {{ lastEntry }}</button>
+
+    <div>De macht optelsom is: {{ sumTestArray }}</div>
+
+    <table>
+        <tr>
+            <th>Index</th>
+            <th>Minused</th>
+        </tr>
+        <tr v-for="entry in testArray" :key="entry.id">
+            <td>{{ entry.id }}</td>
+            <td>{{ entry.minused }}</td>
+        </tr>
+    </table>
 </template>
