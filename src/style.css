@@ -5,3 +5,9 @@ body {
   align-items: center;
   text-align: center;
 }
+
+.inlined {
+  display: inline-block;
+  vertical-align: top;
+  padding: 1em;
+}

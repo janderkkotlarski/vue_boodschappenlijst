@@ -1,6 +1,8 @@
 <script setup>
 import {computed, ref} from 'vue';
 
+/// RIP defineModel and computed together
+
 // const groceryList = defineModel('groceryList', {
 //     type: Object,
 //     default: [
@@ -11,29 +13,36 @@ import {computed, ref} from 'vue';
 //     ],
 // });
 
+/// For that line break in the table
 const invisChar = '\u2000';
 
+/// ref works well with computed functions
 const groceryList = ref([
         {id: 1, name: 'Rijst', price: 1.0, amount: 1},
         {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
         {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
         {id: 4, name: 'Noten', price: 2.99, amount: 0},
-    ]);
+]);
 
+/// Rounding to the specified amount of digits bahind the point
 const digitRounding = (decimal, digits) => {
-    return Math.round(decimal * 10 ** digits) / 10 ** digits;
+    return isNaN(decimal) ? 0 : Math.round(decimal * 10 ** digits) / 10 ** digits;
 };
+
 
 const totalized = computed(() => {
     let total = 0;
 
     for (const entry of groceryList.value) {
+        /// If the amount is a number
+        if (!isNaN(entry.amount)) {
+            // Add the entry's freshly calculated subtotal
             total += entry.price * entry.amount;
+        }
     }
 
+    /// Nicely round the result to two digits behind
     return digitRounding(total, 2);
-
-    // return groceryList.value.reduce((sum, entry) => sum + entry.amount * entry.price);
 });
 
 const plus = index => {
@@ -74,7 +83,10 @@ const arrayEntry = (array, key, value) => {
 const addArray = array => {
     const index = array.value.length + 1;
 
-    array.value.push({id: index, minused: -index});
+    // array.value.push({id: index, minused: -index});
+    /// The pointer to the array does not update with the above call
+    /// With the below call, it does through explicit updating it
+    array.value = [...array.value, {id:index, minused: -index}];
 };
 
 const initArray = (array) => {
@@ -120,7 +132,12 @@ const sumStartArray = computed(() => {
 const sumTestArray = computed(() => {
     let sum = 0;
 
-    for (const entry of testArray.value) {
+    // for (const entry of testArray.value) {
+    //     sum += entry.minused ** entry.id;
+    // }
+
+    for (let index = 0; index < testArray.value.length; index++) {
+        const entry = testArray.value[index];
         sum += entry.minused ** entry.id;
     }
 
@@ -170,37 +187,45 @@ const sumTestArray = computed(() => {
 
     <br />
 
-    <button @click="addStartArray">De laatste is: {{ lastStartEntry }}</button>
+    <div class="inlined">
 
-    <div>De macht optelsom is: {{ sumStartArray }}</div>
+        <button @click="addStartArray">De laatste is: {{ lastStartEntry }}</button>
 
-    <div>Aantal keren geklikt is: {{ startCount }}</div>
+        <div>De macht optelsom is: {{ sumStartArray }}</div>
 
-    <table>
-        <tr>
-            <th>Index</th>
-            <th>Minused</th>
-        </tr>
-        <tr v-for="entry in startArray" :key="entry.id">
-            <td>{{ entry.id }}</td>
-            <td>{{ entry.minused }}</td>
-        </tr>
-    </table>
+        <div>Aantal keren geklikt is: {{ startCount }}</div>
 
-        <button @click="addTestArray">De laatste is: {{ lastTestEntry }}</button>
+        <table>
+            <tr>
+                <th>Index</th>
+                <th>Minused</th>
+            </tr>
+            <tr v-for="entry in startArray" :key="entry.id">
+                <td>{{ entry.id }}</td>
+                <td>{{ entry.minused }}</td>
+            </tr>
+        </table>
 
-    <div>De macht optelsom is: {{ sumTestArray }}</div>
+    </div>
 
-    <div>Aantal keren geklikt is: {{ testCount }}</div>
+    <div class="inlined">
 
-    <table>
-        <tr>
-            <th>Index</th>
-            <th>Minused</th>
-        </tr>
-        <tr v-for="entry in testArray" :key="entry.id">
-            <td>{{ entry.id }}</td>
-            <td>{{ entry.minused }}</td>
-        </tr>
-    </table>
+            <button @click="addTestArray">De laatste is: {{ lastTestEntry }}</button>
+
+        <div>De macht optelsom is: {{ sumTestArray }}</div>
+
+        <div>Aantal keren geklikt is: {{ testCount }}</div>
+
+        <table>
+            <tr>
+                <th>Index</th>
+                <th>Minused</th>
+            </tr>
+            <tr v-for="entry in testArray" :key="entry.id">
+                <td>{{ entry.id }}</td>
+                <td>{{ entry.minused }}</td>
+            </tr>
+        </table>
+
+    </div>
 </template>
