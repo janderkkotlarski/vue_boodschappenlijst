@@ -35,15 +35,15 @@ const arrayEntry = (array, key, value) => {
     }
 };
 
-const minusEntry = ref(null);
+// const minusEntry = ref(null);
 
-const minus = index => {
-    minusEntry.value = arrayEntry(groceryList.value, 'id', index);
+// const minus = index => {
+//     minusEntry.value = arrayEntry(groceryList.value, 'id', index);
 
-    if (minusEntry.value.amount > 0) {
-        --minusEntry.value.amount;
-    }
-};
+//     if (minusEntry.value.amount > 0) {
+//         --minusEntry.value.amount;
+//     }
+// };
 
 const startArray = ref([]);
 
@@ -53,13 +53,13 @@ const addArray = array => {
     array.value.push({id: index, minused: -index});
 };
 
-const initStartArray = () => {
-    for (let index = 1; index <= 10; ++index) {
-        addArray(startArray);
-    }
-};
+// const initStartArray = () => {
+//     for (let index = 1; index <= 10; ++index) {
+//         addArray(startArray);
+//     }
+// };
 
-initStartArray();
+// initStartArray();
 
 // const testArray = ref(startArray);
 
@@ -68,16 +68,27 @@ const testArray = defineModel('testArray', {
     default: [],
 });
 
-const initTestArray = () => {
+const testCount = defineModel('testCount', {
+    type: Number,
+    default: 0,
+});
+
+const initArray = (array) => {
     for (let index = 1; index <= 10; ++index) {
-        addArray(testArray);
+        addArray(array);
     }
 };
 
-initTestArray();
+initArray(startArray);
+
+initArray(testArray);
 
 const addTestArray = () => {
     addArray(testArray);
+
+    ++testCount.value;
+
+    sumTestArray();
 };
 
 const lastEntry = computed(() => {
@@ -129,11 +140,11 @@ const sumTestArray = computed(() => {
 
     <br />
 
-    {{ minusEntry }}
-
     <button @click="addTestArray">De laatste is: {{ lastEntry }}</button>
 
     <div>De macht optelsom is: {{ sumTestArray }}</div>
+
+    <div>Aantal keren geklikt is: {{ testCount }}</div>
 
     <table>
         <tr>
