@@ -11,6 +11,8 @@ import {computed, ref} from 'vue';
 //     ],
 // });
 
+const invisChar = '\u2000';
+
 const groceryList = ref([
         {id: 1, name: 'Rijst', price: 1.0, amount: 1},
         {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
@@ -26,22 +28,23 @@ const totalized = computed(() => {
     let total = 0;
 
     for (const entry of groceryList.value) {
-        total += entry.price * entry.amount;
+            total += entry.price * entry.amount;
     }
 
-    return total; // digitRounding(total, 2);
+    return digitRounding(total, 2);
 
     // return groceryList.value.reduce((sum, entry) => sum + entry.amount * entry.price);
 });
 
-
-const minusEntry = ref(null);
+const plus = index => {
+    ++arrayEntry(groceryList.value, 'id', index).amount;    
+};
 
 const minus = index => {
-    minusEntry.value = arrayEntry(groceryList.value, 'id', index);
+    const entry = arrayEntry(groceryList.value, 'id', index);
 
-    if (minusEntry.value.amount > 0) {
-        --minusEntry.value.amount;
+    if (entry.amount > 0) {
+        --entry.amount;
     }
 };
 
@@ -143,9 +146,17 @@ const sumTestArray = computed(() => {
             <td>{{ entry.name }}</td>
             <td>{{ entry.price }}</td>
             <td><button @click="minus(entry.id)">minder</button></td>
-            <td>{{ entry.amount }}</td>
-            <td><button>meer</button></td>
+            <td><input v-model.number="entry.amount" /></td>
+            <td><button @click="plus(entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
+        </tr>
+        <tr>
+            <td>{{ invisChar }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
         </tr>
         <tr>
             <td>Totaal</td>
