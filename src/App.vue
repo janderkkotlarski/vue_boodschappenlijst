@@ -26,9 +26,8 @@ const groceryList = ref([
 
 /// Rounding to the specified amount of digits bahind the point
 const digitRounding = (decimal, digits) => {
-    return isNaN(decimal) ? 0 : Math.round(decimal * 10 ** digits) / 10 ** digits;
+    return isNaN(decimal) || decimal < 0 ? 0 : Math.round(decimal * 10 ** digits) / 10 ** digits;
 };
-
 
 const totalized = computed(() => {
     let total = 0;
@@ -45,6 +44,14 @@ const totalized = computed(() => {
     return digitRounding(total, 2);
 });
 
+const arrayEntry = (array, key, value) => {
+    for (const entry of array) {
+        if (entry[key] === value) {
+            return entry;
+        }
+    }
+};
+
 const plus = index => {
     ++arrayEntry(groceryList.value, 'id', index).amount;    
 };
@@ -56,6 +63,15 @@ const minus = index => {
         --entry.amount;
     }
 };
+
+// Get rid of negatives
+const checkNumber = index => {
+    const entry = arrayEntry(groceryList.value, 'id', index);
+
+    if (entry.amount < 0) {
+        entry.amount = 0;
+    }
+}
 
 const startArray = ref([]);
 
@@ -70,15 +86,6 @@ const testCount = defineModel('testCount', {
     type: Number,
     default: 0,
 });
-
-
-const arrayEntry = (array, key, value) => {
-    for (const entry of array) {
-        if (entry[key] === value) {
-            return entry;
-        }
-    }
-};
 
 const addArray = array => {
     const index = array.value.length + 1;
@@ -132,21 +139,19 @@ const sumStartArray = computed(() => {
 const sumTestArray = computed(() => {
     let sum = 0;
 
-    // for (const entry of testArray.value) {
-    //     sum += entry.minused ** entry.id;
-    // }
-
-    for (let index = 0; index < testArray.value.length; index++) {
-        const entry = testArray.value[index];
+    for (const entry of testArray.value) {
         sum += entry.minused ** entry.id;
     }
+
+    // for (let index = 0; index < testArray.value.length; index++) {
+    //     const entry = testArray.value[index];
+    //     sum += entry.minused ** entry.id;
+    // }
 
     return sum;
 });
 
-// const subbedTotal = computed(index => {
-//     return arrayEntry(subTotals, 'id', index).subTotal;
-// });
+
 </script>
 
 <template>
@@ -163,7 +168,7 @@ const sumTestArray = computed(() => {
             <td>{{ entry.name }}</td>
             <td>{{ entry.price }}</td>
             <td><button @click="minus(entry.id)">minder</button></td>
-            <td><input v-model.number="entry.amount" /></td>
+            <td><input v-model.number="entry.amount" @change="checkNumber(entry.id)" type="number" min="0" /></td>
             <td><button @click="plus(entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
         </tr>
