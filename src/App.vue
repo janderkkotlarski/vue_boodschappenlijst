@@ -27,13 +27,6 @@ const totalized = computed(() => {
     return groceryList.value.reduce((sum, entry) => sum + entry.amount * entry.price);
 });
 
-const arrayEntry = (array, key, value) => {
-    for (const entry of array) {
-        if (entry[key] === value) {
-            return entry;
-        }
-    }
-};
 
 // const minusEntry = ref(null);
 
@@ -47,21 +40,7 @@ const arrayEntry = (array, key, value) => {
 
 const startArray = ref([]);
 
-const addArray = array => {
-    const index = array.value.length + 1;
-
-    array.value.push({id: index, minused: -index});
-};
-
-// const initStartArray = () => {
-//     for (let index = 1; index <= 10; ++index) {
-//         addArray(startArray);
-//     }
-// };
-
-// initStartArray();
-
-// const testArray = ref(startArray);
+const startCount = ref(0);
 
 const testArray = defineModel('testArray', {
     type: Array,
@@ -73,6 +52,21 @@ const testCount = defineModel('testCount', {
     default: 0,
 });
 
+
+const arrayEntry = (array, key, value) => {
+    for (const entry of array) {
+        if (entry[key] === value) {
+            return entry;
+        }
+    }
+};
+
+const addArray = array => {
+    const index = array.value.length + 1;
+
+    array.value.push({id: index, minused: -index});
+};
+
 const initArray = (array) => {
     for (let index = 1; index <= 10; ++index) {
         addArray(array);
@@ -83,16 +77,34 @@ initArray(startArray);
 
 initArray(testArray);
 
+const addStartArray = () => {
+    addArray(startArray);
+
+    ++startCount.value;
+};
+
 const addTestArray = () => {
     addArray(testArray);
 
     ++testCount.value;
-
-    sumTestArray();
 };
 
-const lastEntry = computed(() => {
+const lastStartEntry = computed(() => {
+    return arrayEntry(startArray.value, 'id', startArray.value.length).id;
+});
+
+const lastTestEntry = computed(() => {
     return arrayEntry(testArray.value, 'id', testArray.value.length).id;
+});
+
+const sumStartArray = computed(() => {
+    let sum = 0;
+
+    for (const entry of startArray.value) {
+        sum += entry.minused ** entry.id;
+    }
+
+    return sum;
 });
 
 const sumTestArray = computed(() => {
@@ -140,7 +152,24 @@ const sumTestArray = computed(() => {
 
     <br />
 
-    <button @click="addTestArray">De laatste is: {{ lastEntry }}</button>
+    <button @click="addStartArray">De laatste is: {{ lastStartEntry }}</button>
+
+    <div>De macht optelsom is: {{ sumStartArray }}</div>
+
+    <div>Aantal keren geklikt is: {{ startCount }}</div>
+
+    <table>
+        <tr>
+            <th>Index</th>
+            <th>Minused</th>
+        </tr>
+        <tr v-for="entry in startArray" :key="entry.id">
+            <td>{{ entry.id }}</td>
+            <td>{{ entry.minused }}</td>
+        </tr>
+    </table>
+
+        <button @click="addTestArray">De laatste is: {{ lastTestEntry }}</button>
 
     <div>De macht optelsom is: {{ sumTestArray }}</div>
 
