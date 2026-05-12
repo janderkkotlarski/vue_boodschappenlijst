@@ -1,42 +1,49 @@
 <script setup>
 import {computed, ref} from 'vue';
 
-const groceryList = defineModel('groceryList', {
-    type: Object,
-    default: [
+// const groceryList = defineModel('groceryList', {
+//     type: Object,
+//     default: [
+//         {id: 1, name: 'Rijst', price: 1.0, amount: 1},
+//         {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
+//         {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
+//         {id: 4, name: 'Noten', price: 2.99, amount: 0},
+//     ],
+// });
+
+const groceryList = ref([
         {id: 1, name: 'Rijst', price: 1.0, amount: 1},
         {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
         {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
         {id: 4, name: 'Noten', price: 2.99, amount: 0},
-    ],
-});
+    ]);
 
 const digitRounding = (decimal, digits) => {
     return Math.round(decimal * 10 ** digits) / 10 ** digits;
 };
 
 const totalized = computed(() => {
-    // let total = 0;
+    let total = 0;
 
-    // for (const entry of groceryList.value) {
-    //     total += entry.price * entry.amount;
-    // }
+    for (const entry of groceryList.value) {
+        total += entry.price * entry.amount;
+    }
 
-    // return total; // digitRounding(total, 2);
+    return total; // digitRounding(total, 2);
 
-    return groceryList.value.reduce((sum, entry) => sum + entry.amount * entry.price);
+    // return groceryList.value.reduce((sum, entry) => sum + entry.amount * entry.price);
 });
 
 
-// const minusEntry = ref(null);
+const minusEntry = ref(null);
 
-// const minus = index => {
-//     minusEntry.value = arrayEntry(groceryList.value, 'id', index);
+const minus = index => {
+    minusEntry.value = arrayEntry(groceryList.value, 'id', index);
 
-//     if (minusEntry.value.amount > 0) {
-//         --minusEntry.value.amount;
-//     }
-// };
+    if (minusEntry.value.amount > 0) {
+        --minusEntry.value.amount;
+    }
+};
 
 const startArray = ref([]);
 
