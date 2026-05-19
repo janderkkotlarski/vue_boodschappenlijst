@@ -3,6 +3,13 @@ import {computed, ref} from 'vue';
 
 import Groceries from './components/GroceriesTable.vue';
 
+const groceryList = ref([
+        {id: 1, name: 'Rijst', price: 1.0, amount: 1},
+        {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
+        {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
+        {id: 4, name: 'Noten', price: 2.99, amount: 0},
+]);
+
 /// Get an array entry of the key has a certain value
 const arrayEntry = (array, key, value) => {
     for (const entry of array) {
@@ -14,10 +21,6 @@ const arrayEntry = (array, key, value) => {
 
 /// Unintended defineModel coupling to computed properties
 /// Did help with some deeper insights
-
-const startArray = ref([]);
-
-const startCount = ref(0);
 
 const testArray = defineModel('testArray', {
     type: Array,
@@ -47,15 +50,7 @@ const initArray = (array) => {
     }
 };
 
-initArray(startArray);
-
 initArray(testArray);
-
-const addStartArray = () => {
-    addArray(startArray);
-
-    ++startCount.value;
-};
 
 const addTestArray = () => {
     addArray(testArray);
@@ -63,26 +58,11 @@ const addTestArray = () => {
     ++testCount.value;
 };
 
-const lastStartEntry = computed(() => {
-    return arrayEntry(startArray.value, 'id', startArray.value.length).id;
-});
-
 const lastTestEntry = computed(() => {
     return arrayEntry(testArray.value, 'id', testArray.value.length).id;
 });
 
 /// Minused to the power Index summed
-const sumStartArray = computed(() => {
-    let sum = 0;
-
-    for (const entry of startArray.value) {
-        sum += entry.minused ** entry.id;
-    }
-
-    return sum;
-});
-
-/// Same for testArray
 const sumTestArray = computed(() => {
     let sum = 0;
 
@@ -97,30 +77,9 @@ const sumTestArray = computed(() => {
 </script>
 
 <template>
-    <Groceries />
+    <Groceries :groceries-list="groceryList" />
 
-    <br />
-
-    <div class="inlined">
-
-        <button @click="addStartArray">De laatste is: {{ lastStartEntry }}</button>
-
-        <div>De macht optelsom is: {{ sumStartArray }}</div>
-
-        <div>Aantal keren geklikt is: {{ startCount }}</div>
-
-        <table>
-            <tr>
-                <th>Index</th>
-                <th>Minused</th>
-            </tr>
-            <tr v-for="entry in startArray" :key="entry.id">
-                <td>{{ entry.id }}</td>
-                <td>{{ entry.minused }}</td>
-            </tr>
-        </table>
-
-    </div>
+    <br />    
 
     <div class="inlined">
 

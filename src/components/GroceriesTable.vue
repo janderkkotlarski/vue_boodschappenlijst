@@ -25,7 +25,7 @@ const groceryList = ref([
         {id: 4, name: 'Noten', price: 2.99, amount: 0},
 ]);
 
-defineProps({
+const groceriesList = defineProps({
     groceriesList: { type: Object, default: null},
 });
 
@@ -67,6 +67,20 @@ const plus = index => {
 /// Decrease amount if positive
 const minus = index => {
     const entry = arrayEntry(groceryList.value, 'id', index);
+
+    if (entry.amount > 0) {
+        --entry.amount;
+    }
+};
+
+/// Increase amount
+const plusGroceries = index => {
+    ++arrayEntry(groceriesList.value, 'id', index).amount;    
+};
+
+/// Decrease amount if positive
+const minusGroceries = index => {
+    const entry = arrayEntry(groceriesList.value, 'id', index);
 
     if (entry.amount > 0) {
         --entry.amount;
@@ -115,6 +129,35 @@ const checkNumber = index => {
         <tr>
             <td>Totaal</td>
             <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ totalized }}</td>
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>Naam</th>
+            <th>Prijs</th>
+            <th>Aantal</th>
+            <th>Subtotaal</th>
+        </tr>
+        <!-- A grocery list table with different ways of changing the amounts -->
+        <tr v-for="entry in groceriesList.groceriesList" :key="entry.id">
+            <td>{{ entry.name }}</td>
+            <td>{{ entry.price }}</td>
+            <td>{{ entry.amount }}</td>
+            <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
+        </tr>
+        <tr>
+            <td>{{ invisChar }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Totaal</td>
             <td></td>
             <td></td>
             <td></td>
