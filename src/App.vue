@@ -2,6 +2,7 @@
 import {computed, ref} from 'vue';
 
 /// RIP defineModel and computed together
+/// Technically doable, but more complicated to get computed working for defineModel
 
 // const groceryList = defineModel('groceryList', {
 //     type: Object,
@@ -29,13 +30,14 @@ const digitRounding = (decimal, digits) => {
     return isNaN(decimal) || decimal < 0 ? 0 : Math.round(decimal * 10 ** digits) / 10 ** digits;
 };
 
+/// Total cost
 const totalized = computed(() => {
     let total = 0;
 
     for (const entry of groceryList.value) {
         /// If the amount is a number
         if (!isNaN(entry.amount)) {
-            // Add the entry's freshly calculated subtotal
+            /// Add the entry's freshly calculated subtotal
             total += entry.price * entry.amount;
         }
     }
@@ -44,6 +46,7 @@ const totalized = computed(() => {
     return digitRounding(total, 2);
 });
 
+/// Get an array entry of the key has a certain value
 const arrayEntry = (array, key, value) => {
     for (const entry of array) {
         if (entry[key] === value) {
@@ -52,10 +55,12 @@ const arrayEntry = (array, key, value) => {
     }
 };
 
+/// Increase amount
 const plus = index => {
     ++arrayEntry(groceryList.value, 'id', index).amount;    
 };
 
+/// Decrease amount if positive
 const minus = index => {
     const entry = arrayEntry(groceryList.value, 'id', index);
 
@@ -64,7 +69,7 @@ const minus = index => {
     }
 };
 
-// Get rid of negatives
+/// Get rid of any negative amount
 const checkNumber = index => {
     const entry = arrayEntry(groceryList.value, 'id', index);
 
@@ -72,6 +77,9 @@ const checkNumber = index => {
         entry.amount = 0;
     }
 }
+
+/// Unintended defineModel coupling to computed properties
+/// Did help with some deeper insights
 
 const startArray = ref([]);
 
@@ -87,15 +95,18 @@ const testCount = defineModel('testCount', {
     default: 0,
 });
 
+/// Add an entry to the array
 const addArray = array => {
     const index = array.value.length + 1;
 
     // array.value.push({id: index, minused: -index});
     /// The pointer to the array does not update with the above call
     /// With the below call, it does through explicit updating it
+    /// Equate the array.value to the array.value and another entry as a new array
     array.value = [...array.value, {id:index, minused: -index}];
 };
 
+// Fill up an empty array with the more general entry addition method
 const initArray = (array) => {
     for (let index = 1; index <= 10; ++index) {
         addArray(array);
@@ -126,6 +137,7 @@ const lastTestEntry = computed(() => {
     return arrayEntry(testArray.value, 'id', testArray.value.length).id;
 });
 
+/// Minused to the power Index summed
 const sumStartArray = computed(() => {
     let sum = 0;
 
@@ -136,17 +148,13 @@ const sumStartArray = computed(() => {
     return sum;
 });
 
+/// Same for testArray
 const sumTestArray = computed(() => {
     let sum = 0;
 
     for (const entry of testArray.value) {
         sum += entry.minused ** entry.id;
     }
-
-    // for (let index = 0; index < testArray.value.length; index++) {
-    //     const entry = testArray.value[index];
-    //     sum += entry.minused ** entry.id;
-    // }
 
     return sum;
 });
@@ -164,10 +172,12 @@ const sumTestArray = computed(() => {
             <th></th>
             <th>Subtotaal</th>
         </tr>
+        <!-- A grocery list table with different ways of changing the amounts -->
         <tr v-for="entry in groceryList" :key="entry.id">
             <td>{{ entry.name }}</td>
             <td>{{ entry.price }}</td>
             <td><button @click="minus(entry.id)">minder</button></td>
+            <!-- A lot of preventing below 0 and non-number amounts -->
             <td><input v-model.number="entry.amount" @change="checkNumber(entry.id)" type="number" min="0" /></td>
             <td><button @click="plus(entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
