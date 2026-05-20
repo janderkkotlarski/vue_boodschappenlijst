@@ -69,6 +69,7 @@ const minus = index => {
     }
 };
 
+// TODO: onderstaande functie lijkt overbodig (want min property van input box voorkomt al negatieve getallen)
 /// Get rid of any negative amount
 const checkNumber = index => {
     const entry = arrayEntry(groceryList.value, 'id', index);
@@ -84,6 +85,8 @@ const checkNumber = index => {
 const startArray = ref([]);
 
 const startCount = ref(0);
+
+// TODO: test code mag volgende keer wel er uit, of in aparte branch
 
 const testArray = defineModel('testArray', {
     type: Array,
