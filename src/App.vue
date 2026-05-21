@@ -4,10 +4,10 @@ import {computed, ref} from 'vue';
 import Groceries from './components/GroceriesTable.vue';
 
 const groceryList = ref([
-        {id: 1, name: 'Rijst', price: 1.0, amount: 1},
-        {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
-        {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
-        {id: 4, name: 'Noten', price: 2.99, amount: 0},
+    {id: 1, name: 'Rijst', price: 1.0, amount: 1},
+    {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
+    {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
+    {id: 4, name: 'Noten', price: 2.99, amount: 0},
 ]);
 
 /// Get an array entry of the key has a certain value
@@ -40,11 +40,11 @@ const addArray = array => {
     /// The pointer to the array does not update with the above call
     /// With the below call, it does through explicit updating it
     /// Equate the array.value to the array.value and another entry as a new array
-    array.value = [...array.value, {id:index, minused: -index}];
+    array.value = [...array.value, {id: index, minused: -index}];
 };
 
 // Fill up an empty array with the more general entry addition method
-const initArray = (array) => {
+const initArray = array => {
     for (let index = 1; index <= 10; ++index) {
         addArray(array);
     }
@@ -72,18 +72,15 @@ const sumTestArray = computed(() => {
 
     return sum;
 });
-
-
 </script>
 
 <template>
-    <Groceries :groceries-list="groceryList" />
+    <Groceries :groceries="groceryList" />
 
-    <br />    
+    <br />
 
     <div class="inlined">
-
-            <button @click="addTestArray">De laatste is: {{ lastTestEntry }}</button>
+        <button @click="addTestArray">De laatste is: {{ lastTestEntry }}</button>
 
         <div>De macht optelsom is: {{ sumTestArray }}</div>
 
@@ -99,6 +96,5 @@ const sumTestArray = computed(() => {
                 <td>{{ entry.minused }}</td>
             </tr>
         </table>
-
     </div>
 </template>
