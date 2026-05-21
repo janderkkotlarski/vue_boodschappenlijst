@@ -25,6 +25,8 @@ const groceryList = ref([
     {id: 4, name: 'Noten', price: 2.99, amount: 0},
 ]);
 
+// groceryList.value.find(item => item.id === 2).amount++;
+
 /// Rounding to the specified amount of digits bahind the point
 const digitRounding = (decimal, digits) => {
     return isNaN(decimal) || decimal < 0 ? 0 : Math.round(decimal * 10 ** digits) / 10 ** digits;
@@ -58,6 +60,8 @@ const arrayEntry = (array, key, value) => {
 /// Increase amount
 const plus = index => {
     ++arrayEntry(groceryList.value, 'id', index).amount;
+
+    ++groceryList.value.find(item => item.id === index).amount;
 };
 
 /// Decrease amount if positive
@@ -77,6 +81,8 @@ const minus = index => {
 //// Het komt door de reactiviteit Vue met de directe update van de ingevoerde waarde
 
 /// Get rid of any negative amount
+/// Needs to happen due to ref deep reactivity leading to
+/// Any legible input being actively held
 const checkNumber = index => {
     const entry = arrayEntry(groceryList.value, 'id', index);
 
@@ -85,7 +91,7 @@ const checkNumber = index => {
     }
 };
 
-// @change="checkNumber(entry.id)"
+//
 
 /// Unintended defineModel coupling to computed properties
 /// Did help with some deeper insights
@@ -187,7 +193,7 @@ const sumTestArray = computed(() => {
             <td>{{ entry.price }}</td>
             <td><button @click="minus(entry.id)">minder</button></td>
             <!-- A lot of preventing below 0 and non-number amounts -->
-            <td><input v-model.number="entry.amount" type="number" min="0" /></td>
+            <td><input v-model.number="entry.amount" @change="checkNumber(entry.id)" type="number" min="0" /></td>
             <td><button @click="plus(entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
         </tr>
