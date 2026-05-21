@@ -19,10 +19,10 @@ const invisChar = '\u2000';
 
 /// ref works well with computed functions
 const groceryList = ref([
-        {id: 1, name: 'Rijst', price: 1.0, amount: 1},
-        {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
-        {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
-        {id: 4, name: 'Noten', price: 2.99, amount: 0},
+    {id: 1, name: 'Rijst', price: 1.0, amount: 1},
+    {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
+    {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
+    {id: 4, name: 'Noten', price: 2.99, amount: 0},
 ]);
 
 /// Rounding to the specified amount of digits bahind the point
@@ -57,7 +57,7 @@ const arrayEntry = (array, key, value) => {
 
 /// Increase amount
 const plus = index => {
-    ++arrayEntry(groceryList.value, 'id', index).amount;    
+    ++arrayEntry(groceryList.value, 'id', index).amount;
 };
 
 /// Decrease amount if positive
@@ -70,6 +70,12 @@ const minus = index => {
 };
 
 // TODO: onderstaande functie lijkt overbodig (want min property van input box voorkomt al negatieve getallen)
+//// Als het er is dan wordt een negatief getal nul wanneer er waar dan ook geklikt wordt
+//// ALs het weg is, blijft dat getal er tot je op de plus knop van de invoer zelf klikt
+//// Voor de rest is het een echt negatief getal dat gebruikt wordt en wat manipuleerbaar is
+//// Op meerdere browsers getest en precies hetzelfde gedrag
+//// Het komt door de reactiviteit Vue met de directe update van de ingevoerde waarde
+
 /// Get rid of any negative amount
 const checkNumber = index => {
     const entry = arrayEntry(groceryList.value, 'id', index);
@@ -77,7 +83,9 @@ const checkNumber = index => {
     if (entry.amount < 0) {
         entry.amount = 0;
     }
-}
+};
+
+// @change="checkNumber(entry.id)"
 
 /// Unintended defineModel coupling to computed properties
 /// Did help with some deeper insights
@@ -106,11 +114,11 @@ const addArray = array => {
     /// The pointer to the array does not update with the above call
     /// With the below call, it does through explicit updating it
     /// Equate the array.value to the array.value and another entry as a new array
-    array.value = [...array.value, {id:index, minused: -index}];
+    array.value = [...array.value, {id: index, minused: -index}];
 };
 
 // Fill up an empty array with the more general entry addition method
-const initArray = (array) => {
+const initArray = array => {
     for (let index = 1; index <= 10; ++index) {
         addArray(array);
     }
@@ -161,8 +169,6 @@ const sumTestArray = computed(() => {
 
     return sum;
 });
-
-
 </script>
 
 <template>
@@ -181,7 +187,7 @@ const sumTestArray = computed(() => {
             <td>{{ entry.price }}</td>
             <td><button @click="minus(entry.id)">minder</button></td>
             <!-- A lot of preventing below 0 and non-number amounts -->
-            <td><input v-model.number="entry.amount" @change="checkNumber(entry.id)" type="number" min="0" /></td>
+            <td><input v-model.number="entry.amount" type="number" min="0" /></td>
             <td><button @click="plus(entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
         </tr>
@@ -206,7 +212,6 @@ const sumTestArray = computed(() => {
     <br />
 
     <div class="inlined">
-
         <button @click="addStartArray">De laatste is: {{ lastStartEntry }}</button>
 
         <div>De macht optelsom is: {{ sumStartArray }}</div>
@@ -223,12 +228,10 @@ const sumTestArray = computed(() => {
                 <td>{{ entry.minused }}</td>
             </tr>
         </table>
-
     </div>
 
     <div class="inlined">
-
-            <button @click="addTestArray">De laatste is: {{ lastTestEntry }}</button>
+        <button @click="addTestArray">De laatste is: {{ lastTestEntry }}</button>
 
         <div>De macht optelsom is: {{ sumTestArray }}</div>
 
@@ -244,6 +247,5 @@ const sumTestArray = computed(() => {
                 <td>{{ entry.minused }}</td>
             </tr>
         </table>
-
     </div>
 </template>
