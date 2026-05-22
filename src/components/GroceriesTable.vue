@@ -5,8 +5,9 @@ import {computed} from 'vue';
 const invisChar = '\u2000';
 
 /// defineProps work like 'reactive'
-const groceries = defineProps({
-    groceries: {type: Object, default: null},
+/// Proper name utilization
+const props = defineProps({
+    groceryList: {type: Object, default: null},
 });
 
 /// Rounding to the specified amount of digits bahind the point
@@ -14,11 +15,10 @@ const digitRounding = (decimal, digits) => {
     return isNaN(decimal) || decimal < 0 ? 0 : Math.round(decimal * 10 ** digits) / 10 ** digits;
 };
 
-/// Total cost
-const totalizedGroceries = computed(() => {
+const totalizedList = computed(() => {
     let total = 0;
 
-    for (const entry of groceries.groceries) {
+    for (const entry of props.groceryList) {
         /// If the amount is a number
         if (!isNaN(entry.amount)) {
             /// Add the entry's freshly calculated subtotal
@@ -37,16 +37,18 @@ const arrayEntry = (array, key, value) => {
             return entry;
         }
     }
+
+    return null;
 };
 
 /// Increase amount
-const plusGroceries = index => {
-    ++arrayEntry(groceries.groceries, 'id', index).amount;
+const plussing = (array, index) => {
+    ++arrayEntry(array, 'id', index).amount;
 };
 
 /// Decrease amount if positive
-const minusGroceries = index => {
-    const entry = arrayEntry(groceries.groceries, 'id', index);
+const minussing = (array, index) => {
+    const entry = arrayEntry(array, 'id', index);
 
     if (entry.amount > 0) {
         --entry.amount;
@@ -54,7 +56,7 @@ const minusGroceries = index => {
 };
 
 /// Get rid of any negative amount
-/// Woeks best for reactive objects
+/// Works best for reactive objects
 /// In the template part any object is counted as reactive
 const checkNumber = (array, index) => {
     const entry = arrayEntry(array, 'id', index);
@@ -76,19 +78,19 @@ const checkNumber = (array, index) => {
             <th>Subtotaal</th>
         </tr>
         <!-- A grocery list table with different ways of changing the amounts -->
-        <tr v-for="entry in groceries.groceries" :key="entry.id">
+        <tr v-for="entry in props.groceryList" :key="entry.id">
             <td>{{ entry.name }}</td>
             <td>{{ entry.price }}</td>
-            <td><button @click="minusGroceries(entry.id)">minder</button></td>
+            <td><button @click="minussing(props.groceryList, entry.id)">minder</button></td>
             <td>
                 <input
                     v-model.number="entry.amount"
-                    @change="checkNumber(groceries.groceries, entry.id)"
+                    @change="checkNumber(props.groceryList, entry.id)"
                     type="number"
                     min="0"
                 />
             </td>
-            <td><button @click="plusGroceries(entry.id)">meer</button></td>
+            <td><button @click="plussing(props.groceryList, entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
         </tr>
         <tr>
@@ -105,7 +107,7 @@ const checkNumber = (array, index) => {
             <td></td>
             <td></td>
             <td></td>
-            <td>{{ totalizedGroceries }}</td>
+            <td>{{ totalizedList }}</td>
         </tr>
     </table>
 </template>

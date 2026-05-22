@@ -12,5 +12,5 @@ const groceryList = ref([
 </script>
 
 <template>
-    <Groceries :groceries="groceryList" />
+    <Groceries :grocery-list="groceryList" />
 </template>
