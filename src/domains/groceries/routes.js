@@ -1,16 +1,10 @@
-import {createMemoryHistory, createRouter} from 'vue-router';
-
+import Overview from './pages/Overview.vue';
 import Create from './pages/Create.vue';
 import Edit from './pages/Edit.vue';
-import Overview from './pages/Overview.vue';
 
-const routes = [
-    {path: '/', component: Overview},
-    {path: '/create', component: Create},
-    {path: '/edit', component: Edit},
+export const routes = [
+    {path: '/', name: 'overview', component: Overview},
+    {path: '/create', name: 'create', component: Create},
+    {path: '/edit', name: 'edit', component: Edit},
 ];
 
-export const router = createRouter({
-    history: createMemoryHistory(),
-    routes,
-});
