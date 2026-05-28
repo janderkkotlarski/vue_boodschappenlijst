@@ -1,3 +1,3 @@
 <script setup></script>
 
-<template>Create</template>
+<template>Nieuwe boodschap</template>

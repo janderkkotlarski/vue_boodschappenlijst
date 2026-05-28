@@ -1,3 +1,3 @@
 <script setup></script>
 
-<template>Edit</template>
+<template>Boodschap aanpassen</template>

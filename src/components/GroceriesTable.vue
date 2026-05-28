@@ -1,8 +1,7 @@
 <script setup>
 import {computed} from 'vue';
 
-/// For that line break in the table
-const invisChar = '\u2000';
+import {invisChar} from './constants.mjs';
 
 /// defineProps work like 'reactive'
 /// Proper name utilization

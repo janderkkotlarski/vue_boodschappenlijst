@@ -12,10 +12,9 @@ const groceryList = ref([
 </script>
 
 <template>
-    <br />
-
     Overzicht
 
+    <br />
     <br />
 
     <Groceries :grocery-list="groceryList" />
