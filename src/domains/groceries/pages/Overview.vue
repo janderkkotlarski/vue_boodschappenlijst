@@ -1,6 +1,7 @@
 <script setup>
 import {ref} from 'vue';
 
+/// Escaping several subfolders in order to go to the correct subfolder
 import Groceries from '../../../components/GroceriesTable.vue';
 
 const groceryList = ref([
