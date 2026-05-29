@@ -1,15 +1,12 @@
 <script setup>
 import {ref} from 'vue';
 
+import {getAllGroceries} from '../store.js';
+
 /// Escaping several subfolders in order to go to the correct subfolder
 import Groceries from '../../../components/GroceriesTable.vue';
 
-const groceryList = ref([
-    {id: 1, name: 'Rijst', price: 1.0, amount: 1},
-    {id: 2, name: 'Broccoli', price: 0.99, amount: 2},
-    {id: 3, name: 'Koekjes', price: 1.2, amount: 4},
-    {id: 4, name: 'Noten', price: 2.99, amount: 0},
-]);
+const groceryList = ref(getAllGroceries);
 </script>
 
 <template>
