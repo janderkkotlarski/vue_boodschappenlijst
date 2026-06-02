@@ -8,7 +8,7 @@ const grocery = props.grocery;
 const emit = defineEmits(['submit']);
 
 const submit = () => {
-    emit(' submit');
+    emit('submit', grocery);
 }
 </script>
 
