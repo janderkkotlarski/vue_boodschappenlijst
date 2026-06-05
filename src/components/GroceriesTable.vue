@@ -75,6 +75,7 @@ const checkNumber = (array, index) => {
             <th>Aantal</th>
             <th></th>
             <th>Subtotaal</th>
+            <th>ID</th>
         </tr>
         <!-- A grocery list table with different ways of changing the amounts -->
         <tr v-for="entry in props.groceryList" :key="entry.id">
@@ -91,9 +92,11 @@ const checkNumber = (array, index) => {
             </td>
             <td><button @click="plussing(props.groceryList, entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
+            <td>{{ entry.id }}</td>
         </tr>
         <tr>
             <td>{{ invisChar }}</td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -107,6 +110,7 @@ const checkNumber = (array, index) => {
             <td></td>
             <td></td>
             <td>{{ totalizedList }}</td>
+            <td></td>
         </tr>
     </table>
 </template>
