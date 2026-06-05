@@ -11,10 +11,15 @@ const updateID = computed(() => {
 });
 
 const grocery = {
-    id: groceries.value.length + 1,
+    id: -1,
     name: 'Test',
     price: 6,
     amount: 5,
+};
+
+const pushGrocery = groc => {
+    console.log(groc);
+    addGrocery(grocery);
 };
 
 const updateGrocery = () => {
@@ -27,7 +32,7 @@ const updateGrocery = () => {
 <template>
     Nieuwe boodschap
     <br />
-    <GroceryForm :grocery="grocery" />
+    <GroceryForm @imagination="pushGrocery" :grocery="grocery" />
     <br />
 
     <button @click="updateGrocery(grocery)">Probeer</button>
