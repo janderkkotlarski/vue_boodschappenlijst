@@ -2,17 +2,13 @@
 import {computed} from 'vue';
 
 import {invisChar} from './constants.mjs';
+import {digitRounding} from './functions.mjs'
 
 /// defineProps work like 'reactive'
 /// Proper name utilization
 const props = defineProps({
     groceryList: {type: Object, default: null},
 });
-
-/// Rounding to the specified amount of digits bahind the point
-const digitRounding = (decimal, digits) => {
-    return isNaN(decimal) || decimal < 0 ? 0 : Math.round(decimal * 10 ** digits) / 10 ** digits;
-};
 
 const totalizedList = computed(() => {
     let total = 0;

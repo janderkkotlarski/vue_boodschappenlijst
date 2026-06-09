@@ -28,13 +28,13 @@ const checkAmount = () => {
 
 <template>
     <label for="name">Naam:</label>
-    <input type="text" v-model="groceryCopy.name" />
+    <input type="text" v-model="groceryCopy.name" minlength="1" maxlength="100"/>
     <br />
     <label for="price">Prijs:</label>
-    <input type="number" v-model.number="groceryCopy.price" @change="checkPrice()" min="0"  />
+    <input type="number" v-model.number="groceryCopy.price" @change="checkPrice()" min="0" max="10000" />
     <br />
     <label for="amount">Aantal:</label>
-    <input type="number" v-model.number="groceryCopy.amount" @change="checkAmount()" min="0" />
+    <input type="number" v-model.number="groceryCopy.amount" @change="checkAmount()" min="0" max="10000" />
     <br />
     <button type="button" @click="submitGrocery">Toevoegen</button>
 </template>

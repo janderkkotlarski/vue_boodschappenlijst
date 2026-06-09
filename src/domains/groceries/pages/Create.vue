@@ -1,23 +1,26 @@
 <script setup>
-import {ref} from 'vue';
-
 import GroceryForm from '../components/GroceryForm.vue';
 import {getAllGroceries, addGrocery} from '../store.js';
 import {router} from '../../../router';
 
-const groceries = ref(getAllGroceries);
+import { digitRounding } from '../../../components/functions.mjs';
 
 const grocery = {
-    id: groceries.value.length + 1,
+    id: getAllGroceries.value.length + 1,
     name: '',
     price: 0,
     amount: 0,
 };
 
-const pushGrocery = groc => {
-    addGrocery(groc);
+const curateGrocery = groc => {
+    groc.price = digitRounding(groc.price, 2);
+    groc.amount = digitRounding(groc.amount, 0);
+}
 
-    router.push('/')
+const pushGrocery = groc => {
+    curateGrocery(groc);
+    addGrocery(groc);
+    router.push('/');
 };
 </script>
 
