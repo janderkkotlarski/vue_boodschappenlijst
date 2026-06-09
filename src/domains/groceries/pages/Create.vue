@@ -1,9 +1,9 @@
 <script setup>
-import {ref, computed} from 'vue';
+import {ref} from 'vue';
 
 import GroceryForm from '../components/GroceryForm.vue';
 import {getAllGroceries, addGrocery} from '../store.js';
-import {RouterLink} from 'vue-router';
+import {router} from '../../../router';
 
 const groceries = ref(getAllGroceries);
 
@@ -16,6 +16,8 @@ const grocery = {
 
 const pushGrocery = groc => {
     addGrocery(groc);
+
+    router.push('/')
 };
 </script>
 
