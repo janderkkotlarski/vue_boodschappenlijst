@@ -1,15 +1,29 @@
 <script setup>
+import {ref} from 'vue';
+
 const props = defineProps({
     grocery: Object,
 });
 
-const groceryCopy = props.grocery;
+const groceryCopy = ref(props.grocery);
 
 const emit = defineEmits(['submit']);
 
 const submitGrocery = () => {
-    emit('submit', groceryCopy);
+    emit('submit', groceryCopy.value);
 };
+
+const checkPrice = () => {
+    if (groceryCopy.value.price < 0) {
+        groceryCopy.value.price = 0;
+    }
+};
+
+const checkAmount = () => {
+    if (groceryCopy.value.amount < 0) {
+        groceryCopy.value.amount = 0;
+    }
+}
 </script>
 
 <template>
@@ -17,10 +31,10 @@ const submitGrocery = () => {
     <input type="text" v-model="groceryCopy.name" />
     <br />
     <label for="price">Prijs:</label>
-    <input type="number" min="0" v-model.number="groceryCopy.price" />
+    <input type="number" v-model.number="groceryCopy.price" @change="checkPrice()" min="0"  />
     <br />
     <label for="amount">Aantal:</label>
-    <input type="number" min="0" v-model.number="groceryCopy.amount" />
+    <input type="number" v-model.number="groceryCopy.amount" @change="checkAmount()" min="0" />
     <br />
     <button type="button" @click="submitGrocery">Toevoegen</button>
 </template>
