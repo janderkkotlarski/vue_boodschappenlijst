@@ -9,9 +9,9 @@ const groceries = ref(getAllGroceries);
 
 const grocery = {
     id: groceries.value.length + 1,
-    name: 'Test',
-    price: 6,
-    amount: 5,
+    name: '',
+    price: 0,
+    amount: 0,
 };
 
 const pushGrocery = groc => {
