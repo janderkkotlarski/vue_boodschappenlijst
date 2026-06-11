@@ -4,6 +4,8 @@ import {computed} from 'vue';
 import {invisChar} from './constants.mjs';
 import {digitRounding} from './functions.mjs';
 
+import {router} from '../router';
+
 /// defineProps work like 'reactive'
 /// Proper name utilization
 const props = defineProps({
@@ -60,6 +62,14 @@ const checkNumber = (array, index) => {
         entry.amount = 0;
     }
 };
+
+const editing = ident => {
+    const id = ident.toString();
+
+    const route = '/edit/:' + id;
+
+    router.push(route);
+};
 </script>
 
 <template>
@@ -71,7 +81,7 @@ const checkNumber = (array, index) => {
             <th>Aantal</th>
             <th></th>
             <th>Subtotaal</th>
-            <th>Verander</th>
+            <th>Veranderen</th>
         </tr>
         <!-- A grocery list table with different ways of changing the amounts -->
         <tr v-for="entry in props.groceryList" :key="entry.id">
@@ -88,7 +98,9 @@ const checkNumber = (array, index) => {
             </td>
             <td><button @click="plussing(props.groceryList, entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
-            <td>Edit</td>
+            <td>
+                <button @click="editing(entry.id)">verander {{ entry.id }}</button>
+            </td>
         </tr>
         <tr>
             <td>{{ invisChar }}</td>
