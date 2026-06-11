@@ -2,7 +2,7 @@
 import {computed} from 'vue';
 
 import {invisChar} from './constants.mjs';
-import {digitRounding} from './functions.mjs'
+import {digitRounding} from './functions.mjs';
 
 /// defineProps work like 'reactive'
 /// Proper name utilization
@@ -71,7 +71,7 @@ const checkNumber = (array, index) => {
             <th>Aantal</th>
             <th></th>
             <th>Subtotaal</th>
-            <th>ID</th>
+            <th>Verander</th>
         </tr>
         <!-- A grocery list table with different ways of changing the amounts -->
         <tr v-for="entry in props.groceryList" :key="entry.id">
@@ -88,7 +88,7 @@ const checkNumber = (array, index) => {
             </td>
             <td><button @click="plussing(props.groceryList, entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
-            <td>{{ entry.id }}</td>
+            <td>Edit</td>
         </tr>
         <tr>
             <td>{{ invisChar }}</td>
