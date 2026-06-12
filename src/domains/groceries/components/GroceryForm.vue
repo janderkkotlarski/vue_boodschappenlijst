@@ -23,12 +23,12 @@ const checkAmount = () => {
     if (groceryCopy.value.amount < 0) {
         groceryCopy.value.amount = 0;
     }
-}
+};
 </script>
 
 <template>
     <label for="name">Naam:</label>
-    <input type="text" v-model="groceryCopy.name" minlength="1" maxlength="100"/>
+    <input type="text" v-model="groceryCopy.name" minlength="1" maxlength="100" />
     <br />
     <label for="price">Prijs:</label>
     <input type="number" v-model.number="groceryCopy.price" @change="checkPrice()" min="0" max="10000" />

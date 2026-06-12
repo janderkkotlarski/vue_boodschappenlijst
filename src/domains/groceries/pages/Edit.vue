@@ -1,3 +1,3 @@
 <script setup></script>
 
-<template>Boodschap aanpassen</template>
+<template>Boodschap {{ $router.params.id }} aanpassen</template>
