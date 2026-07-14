@@ -1,14 +1,16 @@
 <script setup>
 import {useRoute} from 'vue-router';
 
-import {router} from '../../../router';
-import {getGroceryById} from '../store';
+// import {router} from '../../../router';
+// import {getGroceryById} from '../store';
 
 const route = useRoute();
+
+const ident = route.params.id;
 </script>
 
 <template>
-    Boodschap {{ getGroceryById($route.params.id) }} aanpassen
+    Boodschap {{ ident }} aanpassen
 
     <br />
 
