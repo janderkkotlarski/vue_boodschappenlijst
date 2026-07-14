@@ -1,7 +1,7 @@
 <script setup>
 import GroceryForm from '../components/GroceryForm.vue';
 import {getAllGroceries, addGrocery} from '../store.js';
-import {router} from '../../../router';
+import {router} from '../../../router/index.js';
 
 import { digitRounding } from '../../../components/functions.mjs';
 

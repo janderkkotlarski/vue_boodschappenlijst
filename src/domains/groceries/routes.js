@@ -1,5 +1,5 @@
 import Overview from './pages/Overview.vue';
-import Create from './pages/Create.vue';
+import Create from './pages/CreAte.vue';
 import Edit from './pages/Edit.vue';
 
 /// Routes can be defined on their own
