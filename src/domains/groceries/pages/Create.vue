@@ -2,13 +2,15 @@
 import { ref } from 'vue';
 
 import GroceryForm from '../components/GroceryForm.vue';
-import { getAllGroceries, addGrocery } from '../store.js';
+
 import { router } from '../../../router/index.js';
+import { getAllGroceries, addGrocery } from '../store.js';
 
 import { digitRounding } from '../../../components/functions.mjs';
 
-const submitText = "Toevoeken";
+const submitText = "Toevoegen";
 
+// ref this for the needed reactivity
 const grocery = ref({
     id: getAllGroceries.value.length + 1,
     name: '',
