@@ -1,6 +1,6 @@
-import Overview from './pages/Overview.vue';
+import Overview from './pages/OverView.vue';
 import Create from './pages/CreAte.vue';
-import Edit from './pages/Edit.vue';
+import Edit from './pages/EdIt.vue';
 
 /// Routes can be defined on their own
 export const routes = [

@@ -2,19 +2,20 @@
 import {useRoute} from 'vue-router';
 
 // import {router} from '../../../router';
-// import {getGroceryById} from '../store';
+import {getGroceryById} from '../store';
 
 const route = useRoute();
 
-const ident = route.params.id.replace(":", "");
+const ident = parseInt(route.params.id.replace(":", ""));
 
-const idNum = parseInt(ident);
+const grocery = getGroceryById(ident);
 </script>
 
 <template>
-    Boodschap {{ idNum }} aanpassen
+    Boodschap {{ ident }} aanpassen
 
     <br />
+    <br />
 
-    {{ route }}
+    {{ grocery }}
 </template>
