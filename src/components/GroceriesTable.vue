@@ -70,6 +70,14 @@ const editing = ident => {
 
     router.push(route);
 };
+
+const deleting = ident => {
+    const id = ident.toString();
+
+    const route = '/delete/:' + id;
+
+    router.push(route);
+};
 </script>
 
 <template>
@@ -82,6 +90,7 @@ const editing = ident => {
             <th></th>
             <th>Subtotaal</th>
             <th>Veranderen</th>
+            <th>Verwijder</th>
         </tr>
         <!-- A grocery list table with different ways of changing the amounts -->
         <tr v-for="entry in props.groceryList" :key="entry.id">
@@ -101,9 +110,13 @@ const editing = ident => {
             <td>
                 <button @click="editing(entry.id)">Verander {{ entry.name }}</button>
             </td>
+            <td>
+                <button @click="deleting(entry.id)">Verwijder {{ entry.name }}</button>
+            </td>
         </tr>
         <tr>
             <td>{{ invisChar }}</td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -118,6 +131,7 @@ const editing = ident => {
             <td></td>
             <td></td>
             <td>{{ totalizedList }}</td>
+            <td></td>
             <td></td>
         </tr>
     </table>

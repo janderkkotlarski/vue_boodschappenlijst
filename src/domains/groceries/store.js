@@ -17,3 +17,5 @@ export const addGrocery = grocery => groceries.value.push(grocery);
 // Just this empty action dummy function needed for lasting grocery update...?
 // It does need to be a function...
 export const updateGrocery = () => {};
+// Somehow splice works when ident - 1 is given as a parameter.
+export const removeGrocery = ident => groceries.value.splice(ident - 1, 1);
