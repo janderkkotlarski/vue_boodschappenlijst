@@ -14,4 +14,5 @@ export const getGroceryById = id => computed(() => groceries.value.find(grocery 
 
 // Actions
 export const addGrocery = grocery => groceries.value.push(grocery);
-// export const updateGrocery = grocery => 
+// Just this empty action needed for lasting grocery update...?
+export const updateGrocery = () => {};
