@@ -99,7 +99,7 @@ const editing = ident => {
             <td><button @click="plussing(props.groceryList, entry.id)">meer</button></td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
             <td>
-                <button @click="editing(entry.id)">verander {{ entry.id }}</button>
+                <button @click="editing(entry.id)">Verander {{ entry.name }}</button>
             </td>
         </tr>
         <tr>

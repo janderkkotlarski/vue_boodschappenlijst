@@ -1,16 +1,20 @@
 <script setup>
+import { ref } from 'vue';
+
 import GroceryForm from '../components/GroceryForm.vue';
-import {getAllGroceries, addGrocery} from '../store.js';
-import {router} from '../../../router/index.js';
+import { getAllGroceries, addGrocery } from '../store.js';
+import { router } from '../../../router/index.js';
 
 import { digitRounding } from '../../../components/functions.mjs';
 
-const grocery = {
+const submitText = "Toevoeken";
+
+const grocery = ref({
     id: getAllGroceries.value.length + 1,
     name: '',
     price: 0,
     amount: 0,
-};
+});
 
 const curateGrocery = groc => {
     groc.price = digitRounding(groc.price, 2);
@@ -25,7 +29,7 @@ const pushGrocery = groc => {
 </script>
 
 <template>
-    Nieuwe boodschap
+    Voeg boodschap {{ grocery.name }} toe:
     <br />
-    <GroceryForm @submit="pushGrocery" :grocery="grocery" />
+    <GroceryForm @submit="pushGrocery" :grocery="grocery" :submit-text="submitText"/>
 </template>

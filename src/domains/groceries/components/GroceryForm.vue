@@ -3,6 +3,7 @@ import {ref} from 'vue';
 
 const props = defineProps({
     grocery: Object,
+    submitText: String
 });
 
 const groceryCopy = ref(props.grocery);
@@ -36,5 +37,5 @@ const checkAmount = () => {
     <label for="amount">Aantal:</label>
     <input type="number" v-model.number="groceryCopy.amount" @change="checkAmount()" min="0" max="10000" />
     <br />
-    <button type="button" @click="submitGrocery">Toevoegen</button>
+    <button type="button" @click="submitGrocery">{{ submitText }}</button>
 </template>

@@ -8,6 +8,8 @@ import {getGroceryById, updateGrocery} from '../store';
 
 import { digitRounding } from '../../../components/functions.mjs';
 
+const submitText = "Veranderen";
+
 const route = useRoute();
 
 const ident = parseInt(route.params.id.replace(":", ""));
@@ -27,8 +29,7 @@ const editGrocery = groc => {
 </script>
 
 <template>
-    Boodschap {{ ident }} aanpassen
-
+    Pas boodschap {{ grocery.name }} aan:
     <br />
-    <GroceryForm @submit="editGrocery" :grocery="grocery" />
+    <GroceryForm @submit="editGrocery" :grocery="grocery" :submit-text="submitText"/>
 </template>
