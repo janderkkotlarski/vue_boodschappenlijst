@@ -6,11 +6,13 @@ import {useRoute} from 'vue-router';
 
 const route = useRoute();
 
-const ident = route.params.id;
+const ident = route.params.id.replace(":", "");
+
+const idNum = parseInt(ident);
 </script>
 
 <template>
-    Boodschap {{ ident }} aanpassen
+    Boodschap {{ idNum }} aanpassen
 
     <br />
 
