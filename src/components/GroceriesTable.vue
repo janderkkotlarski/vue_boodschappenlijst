@@ -2,7 +2,7 @@
 import {computed} from 'vue';
 
 import {invisChar} from './constants.mjs';
-import {digitRounding} from './functions.mjs';
+import {digitRounding, arrayEntry} from './functions.mjs';
 
 import {router} from '../router';
 
@@ -26,17 +26,6 @@ const totalizedList = computed(() => {
     /// Nicely round the result to two digits behind
     return digitRounding(total, 2);
 });
-
-/// Get an array entry of the key has a certain value
-const arrayEntry = (array, key, value) => {
-    for (const entry of array) {
-        if (entry[key] === value) {
-            return entry;
-        }
-    }
-
-    return null;
-};
 
 /// Increase amount
 const plussing = (array, index) => {

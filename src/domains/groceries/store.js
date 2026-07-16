@@ -1,5 +1,7 @@
 import {ref, computed} from 'vue';
 
+import {arrayEntry} from '../../components/functions.mjs';
+
 // State
 const groceries = ref([
     {id: 1, name: 'Rijst', price: 1.0, amount: 1},
@@ -17,5 +19,9 @@ export const addGrocery = grocery => groceries.value.push(grocery);
 // Just this empty action dummy function needed for lasting grocery update...?
 // It does need to be a function...
 export const updateGrocery = () => {};
-// Somehow splice works when ident - 1 is given as a parameter.
-export const removeGrocery = ident => groceries.value.splice(ident - 1, 1);
+// Be pedantic when getting rid
+export const removeGrocery = ident => {
+    const grocery = arrayEntry(groceries.value, 'id', ident);
+    const index = groceries.value.indexOf(grocery);
+    groceries.value.splice(index, 1);
+};
