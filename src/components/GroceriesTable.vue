@@ -96,7 +96,9 @@ const deleting = ident => {
         <tr v-for="entry in props.groceryList" :key="entry.id">
             <td>{{ entry.name }}</td>
             <td>{{ entry.price }}</td>
-            <td><button @click="minussing(props.groceryList, entry.id)">minder</button></td>
+            <td>
+                <button @click="minussing(props.groceryList, entry.id)">minder: {{ entry.id }}</button>
+            </td>
             <td>
                 <input
                     v-model.number="entry.amount"
@@ -105,13 +107,15 @@ const deleting = ident => {
                     min="0"
                 />
             </td>
-            <td><button @click="plussing(props.groceryList, entry.id)">meer</button></td>
+            <td>
+                <button @click="plussing(props.groceryList, entry.id)">meer: {{ entry.id }}</button>
+            </td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
             <td>
-                <button @click="editing(entry.id)">Verander {{ entry.name }}</button>
+                <button @click="editing(entry.id)">Verander {{ entry.name }}: {{ entry.id }}</button>
             </td>
             <td>
-                <button @click="deleting(entry.id)">Verwijder {{ entry.name }}</button>
+                <button @click="deleting(entry.id)">Verwijder {{ entry.name }}: {{ entry.id }}</button>
             </td>
         </tr>
         <tr>
