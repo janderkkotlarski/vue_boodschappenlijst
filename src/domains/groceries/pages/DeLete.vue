@@ -8,6 +8,7 @@ const submitText = 'Verwijderen';
 
 const route = useRoute();
 
+/// Transform :id into a workable number
 const ident = parseInt(route.params.id.replace(':', ''));
 
 const grocery = getGroceryById(ident);
@@ -20,7 +21,7 @@ const deleteGrocery = () => {
 </script>
 
 <template>
-    Boodschap {{ grocery.name }} {{ ident }}:
+    Verwijder boodschap {{ grocery.name }}:
     <br />
     <button type="button" @click="deleteGrocery">{{ submitText }}</button>
 </template>

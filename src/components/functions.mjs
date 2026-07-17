@@ -13,3 +13,9 @@ export const arrayEntry = (array, key, value) => {
 
     return null;
 };
+
+/// Specific to round off prices and amounts
+export const curateGrocery = groc => {
+    groc.price = digitRounding(groc.price, 2);
+    groc.amount = digitRounding(groc.amount, 0);
+};
