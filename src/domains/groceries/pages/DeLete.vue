@@ -15,7 +15,6 @@ const grocery = getGroceryById(ident);
 
 const deleteGrocery = () => {
     removeGrocery(ident);
-
     router.push('/');
 };
 </script>

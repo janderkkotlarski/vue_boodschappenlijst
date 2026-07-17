@@ -3,7 +3,7 @@ import {ref} from 'vue';
 
 const props = defineProps({
     grocery: Object,
-    submitText: String
+    submitText: String,
 });
 
 const groceryCopy = ref(props.grocery);

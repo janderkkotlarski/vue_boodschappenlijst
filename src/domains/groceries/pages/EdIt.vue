@@ -12,6 +12,7 @@ const submitText = 'Veranderen';
 
 const route = useRoute();
 
+/// Transform :id into a workable number
 const ident = parseInt(route.params.id.replace(':', ''));
 
 const grocery = getGroceryById(ident);

@@ -12,6 +12,7 @@ const props = defineProps({
     groceryList: {type: Object, default: null},
 });
 
+/// Calculate the total amount
 const totalizedList = computed(() => {
     let total = 0;
 
@@ -80,7 +81,7 @@ const deleting = ident => {
             <td>{{ entry.name }}</td>
             <td>{{ entry.price }}</td>
             <td>
-                <button @click="minussing(props.groceryList, entry.id)">minder: {{ entry.id }}</button>
+                <button @click="minussing(props.groceryList, entry.id)">minder</button>
             </td>
             <td>
                 <input
@@ -91,14 +92,14 @@ const deleting = ident => {
                 />
             </td>
             <td>
-                <button @click="plussing(props.groceryList, entry.id)">meer: {{ entry.id }}</button>
+                <button @click="plussing(props.groceryList, entry.id)">meer</button>
             </td>
             <td>{{ digitRounding(entry.price * entry.amount, 2) }}</td>
             <td>
-                <button @click="editing(entry.id)">Verander {{ entry.name }}: {{ entry.id }}</button>
+                <button @click="editing(entry.id)">Verander {{ entry.name }}</button>
             </td>
             <td>
-                <button @click="deleting(entry.id)">Verwijder {{ entry.name }}: {{ entry.id }}</button>
+                <button @click="deleting(entry.id)">Verwijder {{ entry.name }}</button>
             </td>
         </tr>
         <tr>
