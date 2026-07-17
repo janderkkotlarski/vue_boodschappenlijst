@@ -6,7 +6,7 @@ import GroceryForm from '../components/GroceryForm.vue';
 import {router} from '../../../router/index.js';
 import {getGroceryById, updateGrocery} from '../store.js';
 
-import {digitRounding} from '../../../components/functions.mjs';
+import {curateGrocery} from '../../../components/functions.mjs';
 
 const submitText = 'Veranderen';
 
@@ -15,11 +15,6 @@ const route = useRoute();
 const ident = parseInt(route.params.id.replace(':', ''));
 
 const grocery = getGroceryById(ident);
-
-const curateGrocery = groc => {
-    groc.price = digitRounding(groc.price, 2);
-    groc.amount = digitRounding(groc.amount, 0);
-};
 
 const editGrocery = groc => {
     curateGrocery(groc);

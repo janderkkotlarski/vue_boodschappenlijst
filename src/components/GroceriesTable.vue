@@ -53,18 +53,12 @@ const checkNumber = (array, index) => {
 };
 
 const editing = ident => {
-    const id = ident.toString();
-
-    const route = '/edit/:' + id;
-
+    const route = '/edit/:' + ident.toString();
     router.push(route);
 };
 
 const deleting = ident => {
-    const id = ident.toString();
-
-    const route = '/delete/:' + id;
-
+    const route = '/delete/:' + ident.toString();
     router.push(route);
 };
 </script>

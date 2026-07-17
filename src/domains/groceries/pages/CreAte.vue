@@ -10,7 +10,7 @@ import {curateGrocery} from '../../../components/functions.mjs';
 
 const submitText = 'Toevoegen';
 
-///
+/// Get the currently highest ID
 const endID = getAllGroceries.value[getAllGroceries.value.length - 1].id;
 
 /// ref this for the needed reactivity
