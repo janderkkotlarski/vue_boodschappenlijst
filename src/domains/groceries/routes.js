@@ -1,6 +1,6 @@
-import Overview from './pages/Over_view.vue';
-import Create from './pages/Cre_ate.vue';
-import Edit from './pages/Ed_it.vue';
+import Overview from './pages/OverView.vue';
+import Create from './pages/CreAte.vue';
+import Edit from './pages/EdIt.vue';
 import Delete from './pages/DeLete.vue';
 
 /// Routes can be defined on their own
